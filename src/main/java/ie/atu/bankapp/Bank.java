@@ -12,4 +12,12 @@ public class Bank {
     //create account
     //take info
     //store into database
+
+    //show balance
+
+    //withdraw
+
+    //deposit
+
+    //delete acc
 }
