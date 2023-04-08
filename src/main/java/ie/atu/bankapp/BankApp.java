@@ -10,6 +10,6 @@ public class BankApp extends BankDB{
         System.out.println("Enter account number: ");
         Scanner sc = new Scanner(System.in);
         int custNum = sc.nextInt();
-        Update(custNum);
+        Delete(custNum);
     }
 }

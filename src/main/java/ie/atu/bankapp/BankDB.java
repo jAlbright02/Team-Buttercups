@@ -11,7 +11,7 @@ public class BankDB {
     //deposit
 
     //delete acc
-    public static void Update(int custNum) {
+    public static void Delete(int custNum) {
         String updateSQL = "DELETE FROM accounts WHERE id =" + custNum;
         String updateSQL2 = "DELETE FROM customers WHERE id =" + custNum;
         try (Connection connection = BankDB_Connection.getConnection();
