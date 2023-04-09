@@ -7,7 +7,7 @@ import javax.sql.DataSource;
 public class BankDB_Connection {
 
     //setting essentials to connect to DB
-    private static final String URL = "jdbc:mysql://localhost:3306/bankdatabase";
+    private static final String URL = "jdbc:mysql://localhost:3306/bankDB";
     private static final String USERNAME = "root";
     private static final String PASSWORD = "root";
     private static final DataSource dataSource;
