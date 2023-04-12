@@ -33,16 +33,16 @@ public class BankDB {
     //show balance
     public static void showBalance(int custNum) {
 
-        String balanceCommand = "select balance from accounts where customer_id = ?";
+        String balanceCommand = "SELECT balance FROM accounts WHERE customer_id = ?;";
 
-        ResultSet rs = null;
+        ResultSet rs;
 
         try (Connection connection = BankDB_Connection.getConnection();
              Statement statement = connection.createStatement()) {
             PreparedStatement prepSt = connection.prepareStatement(balanceCommand);
             prepSt.setInt(1, custNum);
-            rs = prepSt.executeQuery(balanceCommand);
-
+            rs = prepSt.executeQuery();
+            rs.next();
             System.out.println("Balance = " + rs.getInt("balance"));
 
 
@@ -54,7 +54,7 @@ public class BankDB {
     //withdraw
     public static void Withdraw(int Balance, int custNum) {
 
-        String withdrawCommand =  "UPDATE accounts SET balance = balance - ? WHERE customer_id ?;";
+        String withdrawCommand =  "UPDATE accounts SET balance = balance - ? WHERE customer_id = ?;";
 
         try (Connection connection = BankDB_Connection.getConnection();
              Statement statement = connection.createStatement()) {
@@ -62,7 +62,7 @@ public class BankDB {
             prepSt.setInt(1, Balance);
             prepSt.setInt(2, custNum);
 
-            prepSt.execute();
+            prepSt.executeUpdate();
 
         } catch (SQLException e) {
             e.printStackTrace();
