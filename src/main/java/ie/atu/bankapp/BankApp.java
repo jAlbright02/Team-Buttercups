@@ -21,7 +21,7 @@ public class BankApp extends BankDB{
         int balance = sc.nextInt();
 
 
-        Withdraw(balance, custNum);
+        Withdraw(custNum, balance);
 
         showBalance(custNum);
 

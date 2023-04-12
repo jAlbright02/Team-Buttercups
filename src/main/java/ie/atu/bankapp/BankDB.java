@@ -52,15 +52,16 @@ public class BankDB {
     }
 
     //withdraw
-    public static void Withdraw(int Balance, int custNum) {
+    public static void Withdraw(int custNum, int Balance) {
 
         String withdrawCommand =  "UPDATE accounts SET balance = balance - ? WHERE customer_id = ?;";
 
         try (Connection connection = BankDB_Connection.getConnection();
              Statement statement = connection.createStatement()) {
             PreparedStatement prepSt = connection.prepareStatement(withdrawCommand);
-            prepSt.setInt(1, Balance);
-            prepSt.setInt(2, custNum);
+            prepSt.setInt(1, custNum);
+            prepSt.setInt(2, Balance);
+
 
             prepSt.executeUpdate();
 
@@ -70,6 +71,22 @@ public class BankDB {
 
     }
     //deposit
+    public static void Deposit(int custNum, int balance) {
+
+        String depositCommand = "UPDATE accounts SET balance = balance + ? WHERE customer_id = ?;";
+
+        try (Connection connection = BankDB_Connection.getConnection();
+             Statement statement = connection.createStatement()) {
+            PreparedStatement prepSt = connection.prepareStatement(depositCommand);
+            prepSt.setInt(1, custNum);
+            prepSt.setInt(2, balance);
+
+            prepSt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     //delete acc
     public static void Delete(int custNum) {
