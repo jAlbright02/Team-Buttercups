@@ -9,16 +9,25 @@ public class BankApp extends BankDB{
 
         //all this to be cleaned up. everything in here should just be calling functions basically
 
-        /*
+        Scanner sc = new Scanner(System.in);
+
         System.out.println("Welcome");
         System.out.println("Enter account number: ");
 
         int custNum = sc.nextInt();
-        Delete(custNum);
-        */
 
-        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter amount to withdraw: ");
 
+        int balance = sc.nextInt();
+
+
+        Withdraw(balance, custNum);
+
+        showBalance(custNum);
+
+
+
+        /*
         System.out.println("Create new account: ");
         System.out.println("Enter first name: ");
         String firstName = sc.nextLine();
@@ -36,6 +45,6 @@ public class BankApp extends BankDB{
         Create(fullName, userName, pass, email);
 
         System.out.println("Account created!");
-
+        */
     }
 }
