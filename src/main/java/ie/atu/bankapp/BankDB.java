@@ -59,8 +59,8 @@ public class BankDB {
         try (Connection connection = BankDB_Connection.getConnection();
              Statement statement = connection.createStatement()) {
             PreparedStatement prepSt = connection.prepareStatement(withdrawCommand);
-            prepSt.setInt(1, custNum);
-            prepSt.setInt(2, Balance);
+            prepSt.setInt(1, Balance);
+            prepSt.setInt(2, custNum);
 
 
             prepSt.executeUpdate();
@@ -78,8 +78,8 @@ public class BankDB {
         try (Connection connection = BankDB_Connection.getConnection();
              Statement statement = connection.createStatement()) {
             PreparedStatement prepSt = connection.prepareStatement(depositCommand);
-            prepSt.setInt(1, custNum);
-            prepSt.setInt(2, balance);
+            prepSt.setInt(1, balance);
+            prepSt.setInt(2, custNum);
 
             prepSt.executeUpdate();
 
