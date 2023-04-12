@@ -16,14 +16,29 @@ public class BankApp extends BankDB{
 
         int custNum = sc.nextInt();
 
-        System.out.println("Enter amount to withdraw: ");
+        System.out.println("Enter amount to deposit: ");
 
         int balance = sc.nextInt();
+
+
+        Deposit(custNum, balance);
+
+        showBalance(custNum);
+
+        System.out.println("Enter account number: ");
+
+        custNum = sc.nextInt();
+
+        System.out.println("Enter amount to withdraw: ");
+
+        balance = sc.nextInt();
 
 
         Withdraw(custNum, balance);
 
         showBalance(custNum);
+
+
 
 
 
