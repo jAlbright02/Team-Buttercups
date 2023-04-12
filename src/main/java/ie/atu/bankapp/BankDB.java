@@ -31,9 +31,44 @@ public class BankDB {
 
     }
     //show balance
+    public static void showBalance(int custNum) {
+
+        String balanceCommand = "select balance from accounts where customer_id = ?";
+
+        ResultSet rs = null;
+
+        try (Connection connection = BankDB_Connection.getConnection();
+             Statement statement = connection.createStatement()) {
+            PreparedStatement prepSt = connection.prepareStatement(balanceCommand);
+            prepSt.setInt(1, custNum);
+            rs = prepSt.executeQuery(balanceCommand);
+
+            System.out.println("Balance = " + rs.getInt("balance"));
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     //withdraw
+    public static void Withdraw(int Balance, int custNum) {
 
+        String withdrawCommand =  "UPDATE accounts SET balance = balance - ? WHERE customer_id ?;";
+
+        try (Connection connection = BankDB_Connection.getConnection();
+             Statement statement = connection.createStatement()) {
+            PreparedStatement prepSt = connection.prepareStatement(withdrawCommand);
+            prepSt.setInt(1, Balance);
+            prepSt.setInt(2, custNum);
+
+            prepSt.execute();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
     //deposit
 
     //delete acc
