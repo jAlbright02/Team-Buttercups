@@ -4,6 +4,7 @@ public class Bank {
     private String accNumber;
     private String name;
     private String password;
+    private long balance;
     Scanner sc = new Scanner(System.in);
 
     public void logIn(){
@@ -13,11 +14,14 @@ public class Bank {
         name = sc.next();
         System.out.println("Enter password");
         password = sc.next();
+        System.out.println("Enter balance");
+        balance = sc.nextLong();
     }
     public void showLogIn(){
         System.out.println("Name of account: " + accNumber);
         System.out.println("Name: " + name);
         System.out.println("Password: " + password);
+        System.out.println("Balance: " + balance);
     }
 
 
