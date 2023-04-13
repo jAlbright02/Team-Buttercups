@@ -24,6 +24,24 @@ public class Bank {
         System.out.println("Balance: " + balance);
     }
 
+    public void deposit(){ //depositing
+        long amount;
+        System.out.println("Amount to be deposited");
+        amount = sc.nextLong();
+        balance = balance + amount;
+    }
+    public void withdrawal(){ //withdrawal
+        long amount;
+        System.out.println("Enter amount to be withdrawn");
+        amount = sc.nextLong();
+        if(balance >= amount){
+            balance = balance - amount;
+            System.out.println("Balance after withdrawal" + balance);
+        }else{
+            System.out.println("Your balance is less than " + amount);
+        }
+    }
+
 
 
     //log in
