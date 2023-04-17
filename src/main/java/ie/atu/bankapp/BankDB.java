@@ -52,14 +52,14 @@ public class BankDB {
     }
 
     //withdraw
-    public static void Withdraw(int custNum, int Balance) {
+    public static void Withdraw(int custNum, double Balance) {
 
         String withdrawCommand =  "UPDATE accounts SET balance = balance - ? WHERE customer_id = ?;";
 
         try (Connection connection = BankDB_Connection.getConnection();
              Statement statement = connection.createStatement()) {
             PreparedStatement prepSt = connection.prepareStatement(withdrawCommand);
-            prepSt.setInt(1, Balance);
+            prepSt.setDouble(1, Balance);
             prepSt.setInt(2, custNum);
 
 
@@ -71,14 +71,14 @@ public class BankDB {
 
     }
     //deposit
-    public static void Deposit(int custNum, int balance) {
+    public static void Deposit(int custNum, double balance) {
 
         String depositCommand = "UPDATE accounts SET balance = balance + ? WHERE customer_id = ?;";
 
         try (Connection connection = BankDB_Connection.getConnection();
              Statement statement = connection.createStatement()) {
             PreparedStatement prepSt = connection.prepareStatement(depositCommand);
-            prepSt.setInt(1, balance);
+            prepSt.setDouble(1, balance);
             prepSt.setInt(2, custNum);
 
             prepSt.executeUpdate();
@@ -104,6 +104,38 @@ public class BankDB {
             int rowsUpdated = statement.executeUpdate(deleteCommand2);
             System.out.println("Rows updated: " + rowsUpdated);
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    //transaction between accounts
+    public static void Transfer(int sourceCustNum, int recieverCustNum, double balance) {
+
+        //updates the balances of accounts
+        String depositCommand = "UPDATE accounts SET balance = balance + ? WHERE customer_id = ?;";
+        String withdrawCommand = "UPDATE accounts SET balance = balance - ? WHERE customer_id = ?;";
+
+        //database connection
+        try (Connection connection = BankDB_Connection.getConnection();
+             Statement statement = connection.createStatement()) {
+
+
+            // Deposit to the reciever account
+            PreparedStatement recieverSt = connection.prepareStatement(depositCommand);
+            recieverSt.setDouble(1, balance);
+            recieverSt.setInt(2, recieverCustNum);
+
+            //updates amount in database
+            recieverSt.executeUpdate();
+
+            // Withdraw from source account
+            PreparedStatement withdrawSt = connection.prepareStatement(withdrawCommand);
+            withdrawSt.setDouble(1, balance);
+            withdrawSt.setInt(2, sourceCustNum);
+
+            //updates amount in database
+            withdrawSt.executeUpdate();
+
+            } catch (SQLException e) {
             e.printStackTrace();
         }
     }
