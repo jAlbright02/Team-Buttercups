@@ -1,15 +1,17 @@
 package ie.atu.bankapp;
 import java.util.Scanner;
-public class Bank {
-    private String accNumber;
+public class Bank extends BankDB{
+    private int accNumber;
+
+    private String userName;
     private String name;
     private String password;
-    private long balance;
+    private double balance;
     Scanner sc = new Scanner(System.in);
 
     public void logIn(){
         System.out.println("Enter account number");
-        accNumber = sc.next();
+        accNumber = sc.nextInt();
         System.out.println("Enter name");
         name = sc.next();
         System.out.println("Enter password");
@@ -17,12 +19,8 @@ public class Bank {
         System.out.println("Enter balance");
         balance = sc.nextLong();
     }
-    public void showLogIn(){
-        System.out.println("Name of account: " + accNumber);
-        System.out.println("Name: " + name);
-        System.out.println("Password: " + password);
-        System.out.println("Balance: " + balance);
-    }
+
+
 
     public void deposit(){ //depositing
         long amount;
@@ -34,12 +32,28 @@ public class Bank {
         long amount;
         System.out.println("Enter amount to be withdrawn");
         amount = sc.nextLong();
-        if(balance >= amount){
-            balance = balance - amount;
-            System.out.println("Balance after withdrawal" + balance);
-        }else{
-            System.out.println("Your balance is less than " + amount);
-        }
+        Withdraw(accNumber, balance);
+
+    }
+
+    public void createAccount(){
+        System.out.println("Create new account: ");
+        System.out.println("Enter first name: ");
+        String firstName = sc.nextLine();
+        System.out.println("Enter last name: ");
+        String lastName = sc.nextLine();
+        System.out.println("Enter username: ");
+        String userName = sc.nextLine();
+        System.out.println("Create password: ");
+        String pass = sc.nextLine();
+        System.out.println("Enter email: ");
+        String email = sc.nextLine();
+
+        String fullName = firstName + " " + lastName;
+
+        Create(fullName, userName, pass, email);
+
+        System.out.println("Account created!");
     }
 
 
@@ -48,7 +62,7 @@ public class Bank {
     //check user name
     //check password
     //take user input (Scanner)
-    //database function to compare against (James' Job)
+
 
 
 
@@ -56,7 +70,7 @@ public class Bank {
     //take info - instead of a million print lines like i've left it as
     //store into database - already done by my Create() function
 
-    //show balance (easy enough stuff) lol
+
 
     //withdraw
 

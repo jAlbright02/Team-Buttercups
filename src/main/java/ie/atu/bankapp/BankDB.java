@@ -52,14 +52,14 @@ public class BankDB {
     }
 
     //withdraw
-    public static void Withdraw(int custNum, int Balance) {
+    public static void Withdraw(int custNum, double Balance) {
 
         String withdrawCommand =  "UPDATE accounts SET balance = balance - ? WHERE customer_id = ?;";
 
         try (Connection connection = BankDB_Connection.getConnection();
              Statement statement = connection.createStatement()) {
             PreparedStatement prepSt = connection.prepareStatement(withdrawCommand);
-            prepSt.setInt(1, Balance);
+            prepSt.setDouble(1, Balance);
             prepSt.setInt(2, custNum);
 
 
@@ -71,14 +71,14 @@ public class BankDB {
 
     }
     //deposit
-    public static void Deposit(int custNum, int balance) {
+    public static void Deposit(int custNum, double balance) {
 
         String depositCommand = "UPDATE accounts SET balance = balance + ? WHERE customer_id = ?;";
 
         try (Connection connection = BankDB_Connection.getConnection();
              Statement statement = connection.createStatement()) {
             PreparedStatement prepSt = connection.prepareStatement(depositCommand);
-            prepSt.setInt(1, balance);
+            prepSt.setDouble(1, balance);
             prepSt.setInt(2, custNum);
 
             prepSt.executeUpdate();
