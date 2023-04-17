@@ -2,14 +2,18 @@ package ie.atu.bankapp;
 
 import java.sql.*;
 public class BankDB {
-    //create account
+
+    //creates user account
     public static void Create(String fullName, String userName, String pass, String email) {
 
+        //sql code to add received details into connected database
         String createCommand =  "INSERT INTO customers (name, userName, pass, email) VALUES(?, ?, ?, ?);";
         String createCommand2 = "INSERT INTO accounts (customer_id, balance) VALUES ((SELECT id FROM customers ORDER BY id DESC LIMIT 1), 0);";
 
+        //attempt to connect to database and execute the sql query, if unsuccessful catch and print error
         try (Connection connection = BankDB_Connection.getConnection();
              Statement statement = connection.createStatement()) {
+            //prepared statement used to sub in values from user, quicker compilation after first use as the database doesn't have to recompile and is good security
             PreparedStatement prepSt = connection.prepareStatement(createCommand);
             prepSt.setString(1, fullName);
             prepSt.setString(2, userName);
@@ -22,6 +26,7 @@ public class BankDB {
             e.printStackTrace();
         }
 
+        //a workaround to match customer_id in accounts database, this is so it matches the id in customers
         try (Connection connection = BankDB_Connection.getConnection();
              Statement statement = connection.createStatement()) {
             statement.execute(createCommand2);
@@ -35,6 +40,7 @@ public class BankDB {
 
         String balanceCommand = "SELECT balance FROM accounts WHERE customer_id = ?;";
 
+        //create resultset object, used to retieve information from the database and points to one entry
         ResultSet rs;
 
         try (Connection connection = BankDB_Connection.getConnection();
@@ -42,8 +48,9 @@ public class BankDB {
             PreparedStatement prepSt = connection.prepareStatement(balanceCommand);
             prepSt.setInt(1, custNum);
             rs = prepSt.executeQuery();
+            //need this to move cursor forward otherwise it is pointing at nothing and it will display nothing
             rs.next();
-            System.out.println("Balance = " + rs.getInt("balance"));
+            System.out.println("Balance = " + rs.getFloat("balance"));
 
 
         } catch (SQLException e) {
@@ -88,21 +95,23 @@ public class BankDB {
         }
     }
 
-    //delete acc
+    //delete account
     public static void Delete(int custNum) {
+
+        //sql commands to be processed, didn't use prepared statements here, will change later
         String deleteCommand = "DELETE FROM accounts WHERE id =" + custNum;
         String deleteCommand2 = "DELETE FROM customers WHERE id =" + custNum;
+
         try (Connection connection = BankDB_Connection.getConnection();
              Statement statement = connection.createStatement()) {
-                int rowsUpdated = statement.executeUpdate(deleteCommand);
-                System.out.println("Rows updated: " + rowsUpdated);
+                statement.executeUpdate(deleteCommand);
         } catch (SQLException e) {
                 e.printStackTrace();
             }
+
         try (Connection connection = BankDB_Connection.getConnection();
              Statement statement = connection.createStatement()) {
-            int rowsUpdated = statement.executeUpdate(deleteCommand2);
-            System.out.println("Rows updated: " + rowsUpdated);
+            statement.executeUpdate(deleteCommand2);
         } catch (SQLException e) {
             e.printStackTrace();
         }
