@@ -114,15 +114,17 @@ public class BankDB {
     }
     //deposit
     public static void Deposit(int custNum, float balance) {
-
+        //updates balance
         String depositCommand = "UPDATE accounts SET balance = balance + ? WHERE customer_id = ?;";
 
+        //connects to the database
         try (Connection connection = BankDB_Connection.getConnection();
              Statement statement = connection.createStatement()) {
             PreparedStatement prepSt = connection.prepareStatement(depositCommand);
             prepSt.setFloat(1, balance);
             prepSt.setInt(2, custNum);
 
+            //update balance
             prepSt.executeUpdate();
 
         } catch (SQLException e) {
@@ -151,4 +153,37 @@ public class BankDB {
             e.printStackTrace();
         }
     }
+    //transaction between accounts
+    public static void Transfer(int sourceCustNum, int recieverCustNum, double balance) {
+
+        //updates the balances of accounts
+        String depositCommand = "UPDATE accounts SET balance = balance + ? WHERE customer_id = ?;";
+        String withdrawCommand = "UPDATE accounts SET balance = balance - ? WHERE customer_id = ?;";
+
+        //database connection
+        try (Connection connection = BankDB_Connection.getConnection();
+             Statement statement = connection.createStatement()) {
+
+
+            // Deposit to the reciever account
+            PreparedStatement recieverSt = connection.prepareStatement(depositCommand);
+            recieverSt.setDouble(1, balance);
+            recieverSt.setInt(2, recieverCustNum);
+
+            //updates amount in database
+            recieverSt.executeUpdate();
+
+            // Withdraw from source account
+            PreparedStatement withdrawSt = connection.prepareStatement(withdrawCommand);
+            withdrawSt.setDouble(1, balance);
+            withdrawSt.setInt(2, sourceCustNum);
+
+            //updates amount in database
+            withdrawSt.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
