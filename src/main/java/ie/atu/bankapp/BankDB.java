@@ -59,33 +59,68 @@ public class BankDB {
     }
 
     //withdraw
-    public static void Withdraw(int custNum, double Balance) {
+    public static void Withdraw(int custNum, float balance) {
 
         String withdrawCommand =  "UPDATE accounts SET balance = balance - ? WHERE customer_id = ?;";
+        String checkAmount = "SELECT balance FROM accounts WHERE customer_id = ?;";
+
+        //create resultset object, used to retieve information from the database and points to one entry
+        ResultSet rs;
 
         try (Connection connection = BankDB_Connection.getConnection();
              Statement statement = connection.createStatement()) {
-            PreparedStatement prepSt = connection.prepareStatement(withdrawCommand);
-            prepSt.setDouble(1, Balance);
-            prepSt.setInt(2, custNum);
+            PreparedStatement prepSt = connection.prepareStatement(checkAmount);
+            prepSt.setInt(1, custNum);
+            rs = prepSt.executeQuery();
 
+            //check if there is any value in result set
+            if (rs.next()) {
 
-            prepSt.executeUpdate();
+                //grab value from balance depending on customer id
+                float amount = rs.getFloat("balance");
+
+                //check if the amount withdrawn is larger than balance
+                if (amount > balance) {
+
+                    //if greater than balance, attempt to withdraw amount entered
+                    try {
+                        PreparedStatement prepSt2 = connection.prepareStatement(withdrawCommand);
+                        prepSt2.setFloat(1, balance);
+                        prepSt2.setInt(2, custNum);
+
+                        prepSt2.executeUpdate();
+
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+                //if not enough, print error for user to understand
+                else {
+                    System.out.println("Insufficient funds to withdraw.");
+                }
+
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
+
+        /*
+
+        */
+
     }
     //deposit
-    public static void Deposit(int custNum, double balance) {
+    public static void Deposit(int custNum, float balance) {
 
         String depositCommand = "UPDATE accounts SET balance = balance + ? WHERE customer_id = ?;";
 
         try (Connection connection = BankDB_Connection.getConnection();
              Statement statement = connection.createStatement()) {
             PreparedStatement prepSt = connection.prepareStatement(depositCommand);
-            prepSt.setDouble(1, balance);
+            prepSt.setFloat(1, balance);
             prepSt.setInt(2, custNum);
 
             prepSt.executeUpdate();
