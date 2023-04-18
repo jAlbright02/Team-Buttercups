@@ -6,7 +6,7 @@ public class Bank extends BankDB{
     private String userName;
     private String name;
     private String password;
-    private double balance;
+    private float balance;
     Scanner sc = new Scanner(System.in);
 
     public void logIn(){
@@ -29,7 +29,7 @@ public class Bank extends BankDB{
         balance = balance + amount;
     }
     public void withdrawal(){ //withdrawal
-        long amount;
+        float amount;
         System.out.println("Enter amount to be withdrawn");
         amount = sc.nextLong();
         Withdraw(accNumber, balance);
