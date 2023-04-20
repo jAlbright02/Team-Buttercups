@@ -7,54 +7,70 @@ public class Bank extends BankDB{
     private String name;
     private String password;
     private float balance;
+    private boolean config;
     Scanner sc = new Scanner(System.in);
 
-    public void logIn(){
-        System.out.println("Enter account number");
-        accNumber = sc.nextInt();
-        System.out.println("Enter name");
-        name = sc.next();
-        System.out.println("Enter password");
-        password = sc.next();
-        System.out.println("Enter balance");
-        balance = sc.nextLong();
-    }
+        public void configCustomer()  //loop for new or returning customer
+        {
+            System.out.println("Enter true if registered customer, enter false if new customer : ");
+            config = sc.nextBoolean();
+            if(config == true)
+            {
+                logIn();
+            }
+            else{
+                createAccount();
+            }
+        }
 
 
 
-    public void deposit(){ //depositing
-        long amount;
-        System.out.println("Amount to be deposited");
-        amount = sc.nextLong();
-        balance = balance + amount;
-    }
-    public void withdrawal(){ //withdrawal
-        float amount;
-        System.out.println("Enter amount to be withdrawn");
-        amount = sc.nextLong();
-        Withdraw(accNumber, balance);
+        public void logIn () {
+            System.out.println("Enter account number");
+            accNumber = sc.nextInt();
+            System.out.println("Enter name");
+            name = sc.next();
+            System.out.println("Enter password");
+            password = sc.next();
+            System.out.println("Enter balance");
+            balance = sc.nextLong();
+        }
 
-    }
 
-    public void createAccount(){
-        System.out.println("Create new account: ");
-        System.out.println("Enter first name: ");
-        String firstName = sc.nextLine();
-        System.out.println("Enter last name: ");
-        String lastName = sc.nextLine();
-        System.out.println("Enter username: ");
-        String userName = sc.nextLine();
-        System.out.println("Create password: ");
-        String pass = sc.nextLine();
-        System.out.println("Enter email: ");
-        String email = sc.nextLine();
+        public void deposit () { //depositing
+            long amount;
+            System.out.println("Amount to be deposited");
+            amount = sc.nextLong();
+            balance = balance + amount;
+        }
+        public void withdrawal () { //withdrawal
+            float amount;
+            System.out.println("Enter amount to be withdrawn");
+            amount = sc.nextLong();
+            Withdraw(accNumber, balance);
 
-        String fullName = firstName + " " + lastName;
+        }
 
-        Create(fullName, userName, pass, email);
+        public void createAccount () {
+            System.out.println("Create new account: ");
+            System.out.println("Enter first name: ");
+            String firstName = sc.nextLine();
+            System.out.println("Enter last name: ");
+            String lastName = sc.nextLine();
+            System.out.println("Enter username: ");
+            String userName = sc.nextLine();
+            System.out.println("Create password: ");
+            String pass = sc.nextLine();
+            System.out.println("Enter email: ");
+            String email = sc.nextLine();
 
-        System.out.println("Account created!");
-    }
+            String fullName = firstName + " " + lastName;
+
+            Create(fullName, userName, pass, email);
+
+            System.out.println("Account created!");
+        }
+
 
 
 
