@@ -154,7 +154,7 @@ public class BankDB {
         }
     }
     //transaction between accounts
-    public static void Transfer(int sourceCustNum, int recieverCustNum, double balance) {
+    public static void Transfer(int sourceCustNum, int recieverCustNum, float balance) {
 
         //updates the balances of accounts
         String depositCommand = "UPDATE accounts SET balance = balance + ? WHERE customer_id = ?;";
@@ -167,7 +167,7 @@ public class BankDB {
 
             // Deposit to the reciever account
             PreparedStatement recieverSt = connection.prepareStatement(depositCommand);
-            recieverSt.setDouble(1, balance);
+            recieverSt.setFloat(1, balance);
             recieverSt.setInt(2, recieverCustNum);
 
             //updates amount in database
@@ -175,7 +175,7 @@ public class BankDB {
 
             // Withdraw from source account
             PreparedStatement withdrawSt = connection.prepareStatement(withdrawCommand);
-            withdrawSt.setDouble(1, balance);
+            withdrawSt.setFloat(1, balance);
             withdrawSt.setInt(2, sourceCustNum);
 
             //updates amount in database
