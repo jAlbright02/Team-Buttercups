@@ -69,6 +69,10 @@ public class Bank extends BankDB{
             System.out.println("Account created!");
         }
 
+        public void checkBal () {
+
+        }
+
 
 
 
