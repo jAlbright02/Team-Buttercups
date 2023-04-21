@@ -39,30 +39,6 @@ public class BankApp extends Bank{
         int custNum = sc.nextInt();
 
         withdrawal(custNum);
-
-
-
-
-
-
-        /*
-        System.out.println("Create new account: ");
-        System.out.println("Enter first name: ");
-        String firstName = sc.nextLine();
-        System.out.println("Enter last name: ");
-        String lastName = sc.nextLine();
-        System.out.println("Enter username: ");
-        String userName = sc.nextLine();
-        System.out.println("Create password: ");
-        String pass = sc.nextLine();
-        System.out.println("Enter email: ");
-        String email = sc.nextLine();
-
-        String fullName = firstName + " " + lastName;
-
-        Create(fullName, userName, pass, email);
-
-        System.out.println("Account created!");
-        */
+        showBalance(custNum);
     }
 }
