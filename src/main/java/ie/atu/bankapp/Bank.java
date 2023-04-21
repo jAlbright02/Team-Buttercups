@@ -8,7 +8,9 @@ public class Bank extends BankDB{
     private String password;
     private float balance;
     private boolean config;
-    Scanner sc = new Scanner(System.in);    //used to get user input
+
+    //made Scanner object static, so it can be referenced in static methods
+    static Scanner sc = new Scanner(System.in);
 
         public void configCustomer()  //loop for new or returning customer
         {
@@ -41,12 +43,13 @@ public class Bank extends BankDB{
             amount = sc.nextLong();
             balance = balance + amount;
         }
-        public void withdrawal () { //withdrawing money from bank account
+
+        public static void withdrawal(int accNumber) { //withdrawal
             float amount;
             System.out.println("Enter amount to be withdrawn");
             amount = sc.nextLong();
-            Withdraw(accNumber, balance);
-
+            Withdraw(accNumber, amount);
+            showBalance(accNumber);
         }
 
         public void createAccount () {  //setup for new account
