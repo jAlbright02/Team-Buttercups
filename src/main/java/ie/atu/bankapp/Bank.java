@@ -3,12 +3,12 @@ import java.util.Scanner;
 public class Bank extends BankDB{
     private int accNumber;
 
-    private String userName;
+    private String userName;    //setup for the login
     private String name;
     private String password;
     private float balance;
     private boolean config;
-    Scanner sc = new Scanner(System.in);
+    Scanner sc = new Scanner(System.in);    //used to get user input
 
         public void configCustomer()  //loop for new or returning customer
         {
@@ -23,9 +23,7 @@ public class Bank extends BankDB{
             }
         }
 
-
-
-        public void logIn () {
+        public void logIn () {  //asking the user to enter their login details
             System.out.println("Enter account number");
             accNumber = sc.nextInt();
             System.out.println("Enter name");
@@ -37,13 +35,13 @@ public class Bank extends BankDB{
         }
 
 
-        public void deposit () { //depositing
+        public void deposit () { //depositing money to bank account
             long amount;
             System.out.println("Amount to be deposited");
             amount = sc.nextLong();
             balance = balance + amount;
         }
-        public void withdrawal () { //withdrawal
+        public void withdrawal () { //withdrawing money from bank account
             float amount;
             System.out.println("Enter amount to be withdrawn");
             amount = sc.nextLong();
@@ -51,7 +49,7 @@ public class Bank extends BankDB{
 
         }
 
-        public void createAccount () {
+        public void createAccount () {  //setup for new account
             System.out.println("Create new account: ");
             System.out.println("Enter first name: ");
             String firstName = sc.nextLine();
@@ -69,6 +67,10 @@ public class Bank extends BankDB{
             Create(fullName, userName, pass, email);
 
             System.out.println("Account created!");
+        }
+
+        public void checkBal () {
+
         }
 
 
