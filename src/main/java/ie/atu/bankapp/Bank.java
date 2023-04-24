@@ -26,7 +26,7 @@ public class Bank extends BankDB{
         }
 
 
-        public void deposit () { //depositing money to bank account
+        public static void deposit () { //depositing money to bank account
             long amount;
             System.out.println("Amount to be deposited");
             amount = sc.nextLong();
@@ -61,7 +61,7 @@ public class Bank extends BankDB{
             System.out.println("Account created!");
         }
 
-        public void checkBal () {
+        public static void checkBal () {
 
         }
 
