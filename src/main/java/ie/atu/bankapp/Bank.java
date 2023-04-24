@@ -1,31 +1,20 @@
 package ie.atu.bankapp;
 import java.util.Scanner;
 public class Bank extends BankDB{
-    private int accNumber;
+    private static int accNumber;
 
-    private String userName;    //setup for the login
-    private String name;
-    private String password;
-    private float balance;
+    private static String userName;    //setup for the login
+    private static String name;
+    private static String password;
+    private static float balance;
     private boolean config;
 
     //made Scanner object static, so it can be referenced in static methods
     static Scanner sc = new Scanner(System.in);
 
-        public void configCustomer()  //loop for new or returning customer
-        {
-            System.out.println("Enter true if registered customer, enter false if new customer : ");
-            config = sc.nextBoolean();
-            if(config == true)
-            {
-                logIn();
-            }
-            else{
-                createAccount();
-            }
-        }
 
-        public void logIn () {  //asking the user to enter their login details
+
+        public static void logIn () {  //asking the user to enter their login details
             System.out.println("Enter account number");
             accNumber = sc.nextInt();
             System.out.println("Enter name");
@@ -52,7 +41,7 @@ public class Bank extends BankDB{
             showBalance(accNumber);
         }
 
-        public void createAccount () {  //setup for new account
+        public static void createAccount () {  //setup for new account
             System.out.println("Create new account: ");
             System.out.println("Enter first name: ");
             String firstName = sc.nextLine();
