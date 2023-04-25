@@ -7,6 +7,8 @@ public class Bank extends BankDB{
     private static String name;
     private static String password;
     private static float balance;
+    private static float transfer;
+    private static String transferAccNum;
     private boolean config;
 
     //made Scanner object static, so it can be referenced in static methods
@@ -65,6 +67,12 @@ public class Bank extends BankDB{
 
         }
 
+        public static void transfer(){  //creating a transfer function
+            System.out.println("Please enter amount you desire to transfer");
+            transfer = sc.nextLong();
+            System.out.println("Please enter account number you wish to transfer funds to");
+            String transferAccNum = sc.nextLine();
+        }
 
 
 
