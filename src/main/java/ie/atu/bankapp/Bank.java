@@ -23,8 +23,6 @@ public class Bank extends BankDB{
             name = sc.next();
             System.out.println("Enter password");
             password = sc.next();
-            System.out.println("Enter balance");
-            balance = sc.nextLong();
         }
 
 
@@ -42,6 +40,17 @@ public class Bank extends BankDB{
             Withdraw(accNumber, amount);
             showBalance(accNumber);
         }
+
+    public static void transfer(){  //creating a transfer function
+        System.out.println("Please enter amount you desire to transfer");
+        transfer = sc.nextLong();
+        System.out.println("Please enter account number you wish to transfer funds to");
+        String transferAccNum = sc.nextLine();
+    }
+
+    public static void checkBal () {     //checking how much money the account holder has
+        System.out.println("Your balance is" +balance);
+    }
 
         public static void createAccount () {  //setup for new account
             System.out.println("Create new account: ");
@@ -63,16 +72,6 @@ public class Bank extends BankDB{
             System.out.println("Account created!");
         }
 
-        public static void checkBal () {
-
-        }
-
-        public static void transfer(){  //creating a transfer function
-            System.out.println("Please enter amount you desire to transfer");
-            transfer = sc.nextLong();
-            System.out.println("Please enter account number you wish to transfer funds to");
-            String transferAccNum = sc.nextLine();
-        }
 
 
 
