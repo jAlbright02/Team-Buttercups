@@ -42,6 +42,7 @@ public class BankApp extends Bank{
             System.out.println("1. Check Balance");
             System.out.println("2. Withdraw");
             System.out.println("3. Deposit");
+            System.out.println("4. Exit");
 
             logChoice = sc.nextInt();
 
@@ -52,6 +53,8 @@ public class BankApp extends Bank{
                     case 2 : withdrawal();
                     break;
                     case 3 : deposit();
+                    break;
+                    case 4 : choice = 2;
                     break;
                 }
         }
