@@ -84,12 +84,5 @@ public class BankApp extends Bank{
         showBalance(custNum);
         showBalance(custNum2);
         */
-
-        System.out.println("Enter account number: ");
-
-        int custNum = sc.nextInt();
-
-        withdrawal(custNum);
-        showBalance(custNum);
     }
 }
