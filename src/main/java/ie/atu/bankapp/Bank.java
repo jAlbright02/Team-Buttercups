@@ -33,7 +33,7 @@ public class Bank extends BankDB{
             balance = balance + amount;
         }
 
-        public static void withdrawal(int accNumber) { //withdrawal
+        public static void withdrawal() { //withdrawal
             float amount;
             System.out.println("Enter amount to be withdrawn");
             amount = sc.nextLong();
