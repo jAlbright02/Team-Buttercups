@@ -7,7 +7,7 @@ public class BankDB {
     public static void Create(String fullName, String userName, String pass, String email) {
 
         //sql code to add received details into connected database
-        String createCommand =  "INSERT INTO customers (name, userName, pass, email) VALUES(?, ?, ?, ?);";
+        String createCommand = "INSERT INTO customers (name, userName, pass, email) VALUES(?, ?, ?, ?);";
         String createCommand2 = "INSERT INTO accounts (customer_id, balance) VALUES ((SELECT id FROM customers ORDER BY id DESC LIMIT 1), 0);";
 
         //attempt to connect to database and execute the sql query, if unsuccessful catch and print error
@@ -35,6 +35,7 @@ public class BankDB {
         }
 
     }
+
     //show balance
     public static void showBalance(int custNum) {
 
@@ -61,7 +62,7 @@ public class BankDB {
     //withdraw
     public static void Withdraw(int custNum, float balance) {
 
-        String withdrawCommand =  "UPDATE accounts SET balance = balance - ? WHERE customer_id = ?;";
+        String withdrawCommand = "UPDATE accounts SET balance = balance - ? WHERE customer_id = ?;";
         String checkAmount = "SELECT balance FROM accounts WHERE customer_id = ?;";
 
         //create resultset object, used to retieve information from the database and points to one entry
@@ -70,6 +71,7 @@ public class BankDB {
         try (Connection connection = BankDB_Connection.getConnection();
              Statement statement = connection.createStatement()) {
             PreparedStatement prepSt = connection.prepareStatement(checkAmount);
+            connection.setAutoCommit(false);
             prepSt.setInt(1, custNum);
             rs = prepSt.executeQuery();
 
@@ -90,6 +92,9 @@ public class BankDB {
 
                         prepSt2.executeUpdate();
 
+                        connection.commit();
+                        connection.setAutoCommit(true);
+
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
@@ -109,23 +114,31 @@ public class BankDB {
 
         /*
 
-        */
+         */
 
     }
+
     //deposit
     public static void Deposit(int custNum, float balance) {
         //updates balance
         String depositCommand = "UPDATE accounts SET balance = balance + ? WHERE customer_id = ?;";
 
         //connects to the database
+
+
+
         try (Connection connection = BankDB_Connection.getConnection();
              Statement statement = connection.createStatement()) {
             PreparedStatement prepSt = connection.prepareStatement(depositCommand);
+            connection.setAutoCommit(false);
             prepSt.setFloat(1, balance);
             prepSt.setInt(2, custNum);
 
             //update balance
             prepSt.executeUpdate();
+
+            connection.commit();
+            connection.setAutoCommit(true);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -141,10 +154,10 @@ public class BankDB {
 
         try (Connection connection = BankDB_Connection.getConnection();
              Statement statement = connection.createStatement()) {
-                statement.executeUpdate(deleteCommand);
+            statement.executeUpdate(deleteCommand);
         } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            e.printStackTrace();
+        }
 
         try (Connection connection = BankDB_Connection.getConnection();
              Statement statement = connection.createStatement()) {
@@ -153,6 +166,7 @@ public class BankDB {
             e.printStackTrace();
         }
     }
+
     //transaction between accounts
     public static void Transfer(int sourceCustNum, int recieverCustNum, float balance) {
 
@@ -167,6 +181,7 @@ public class BankDB {
 
             // Deposit to the reciever account
             PreparedStatement recieverSt = connection.prepareStatement(depositCommand);
+            connection.setAutoCommit(false);
             recieverSt.setFloat(1, balance);
             recieverSt.setInt(2, recieverCustNum);
 
@@ -181,9 +196,58 @@ public class BankDB {
             //updates amount in database
             withdrawSt.executeUpdate();
 
+            connection.commit();
+            connection.setAutoCommit(true);
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+    public static void LoginTest(String userName, String password) {
+
+        String[] userNameCommand = {"JamesA", "KevinH", "KerryF", "JohnB"};
+        String[] passwordCommand = {"secret", "hush1", "neverguess", "goodluck"};
+        boolean found = false;
+
+        try (Connection connection = BankDB_Connection.getConnection();
+             Statement statement = connection.createStatement()) {
+
+            ResultSet rs = statement.executeQuery("SELECT * FROM customers");
+
+            while (rs.next()) {
+                String username = rs.getString("username");
+                String passwordFromDB = rs.getString("password");
+
+                for (int i = 0; i < userNameCommand.length; i++) {
+                    if (username.equals(userNameCommand[i]) && passwordFromDB.equals(passwordCommand[i])) {
+                        found = true;
+                        break;
+                    }
+                }
+
+                if (found) {
+                    break;
+                }
+            }
+
+            rs.close();
+
+            if (found) {
+                System.out.println("Login successful");
+            } else {
+                System.out.println("Incorrect username or password.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }
+
+
+
+
+
+
+
