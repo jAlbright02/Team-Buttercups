@@ -4,11 +4,14 @@ import java.util.Scanner;
 
 public class BankApp extends Bank{
 
+
     //face of the application
     //make it nice to interact with for the user
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
+
+        Bank myBank = new Bank();
 
 
         int a = -1;
@@ -27,9 +30,9 @@ public class BankApp extends Bank{
         {
             switch (choice) //user has choice to og in or create account
             {
-                case 1 : logIn(); a = 1;
+                case 1 : myBank.logIn(); a = 1;
                     break;
-                case 2: createAccount();
+                case 2: myBank.createAccount(); a = 1;
                 break;
                 case 3: a = 1;
                 break;
@@ -48,13 +51,13 @@ public class BankApp extends Bank{
 
                 switch(logChoice)
                 {
-                    case 1 : checkBal();
+                    case 1 : myBank.checkBal();
                     break;
-                    case 2 : withdrawal();
+                    case 2 : myBank.withdrawal();
                     break;
-                    case 3 : deposit();
+                    case 3 : myBank.deposit();
                     break;
-                    case 4 : choice = 2;
+                    case 4 : choice = 3;
                     break;
                 }
         }
@@ -64,25 +67,6 @@ public class BankApp extends Bank{
 
 
 
-         /*
-        System.out.println("Welcome, transfer funds");
-        System.out.println("Enter account number: ");
 
-        int custNum = sc.nextInt();
-
-        System.out.println("Enter second account number: ");
-
-        int custNum2 = sc.nextInt();
-
-        System.out.println("Enter amount to deposit: ");
-
-        int balance = sc.nextInt();
-
-
-        Transfer(custNum, custNum2, balance);
-
-        showBalance(custNum);
-        showBalance(custNum2);
-        */
     }
 }
