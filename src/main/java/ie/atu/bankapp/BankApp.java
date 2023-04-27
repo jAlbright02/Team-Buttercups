@@ -27,7 +27,7 @@ public class BankApp extends Bank{
         {
             switch (choice) //user has choice to og in or create account
             {
-                case 1 : logIn();
+                case 1 : logIn(); a = 1;
                     break;
                 case 2: createAccount();
                 break;
@@ -36,7 +36,7 @@ public class BankApp extends Bank{
             }
         }
         int logChoice;
-        while(choice == 1) // while choice is 1, user can check balance, withdraw and deposit
+        while(choice == 1 || choice == 2) // while choice is 1, user can check balance, withdraw and deposit
         {
             System.out.println("Please make a choice : ");
             System.out.println("1. Check Balance");
