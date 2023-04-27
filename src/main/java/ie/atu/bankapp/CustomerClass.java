@@ -1,30 +1,29 @@
 package ie.atu.bankapp;
 import java.util.Scanner;
 
-public class CustomerClass extends Bank
-{
+public class CustomerClass {
     public static String email;
     private static String userName;
-    private static String fullName;
+    private static String name;
+
 
     public CustomerClass()
     {
 
     }
-    public CustomerClass(String fullName, String userName, String email)
+    public CustomerClass(String name, String userName, String email)
     {
-
-        this. fullName = fullName;
+        this.name = name;
         this.userName = userName;
         this.email = email;
 
     }
 
-    public static String getEmail() {
+    public String getEmail() {
         return email;
     }
 
-    public static void setEmail(String email) {
+    public void setEmail(String email) {
         CustomerClass.email = email;
     }
 
@@ -36,11 +35,11 @@ public class CustomerClass extends Bank
         CustomerClass.userName = userName;
     }
 
-    public static String getFullName() {
-        return fullName;
+    public static String getName() {
+        return name;
     }
 
-    public static void setFullName(String fullName) {
-        CustomerClass.fullName = fullName;
+    public static void setName(String fullName) {
+        CustomerClass.name = fullName;
     }
 }
