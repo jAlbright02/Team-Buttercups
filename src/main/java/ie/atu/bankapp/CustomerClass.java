@@ -27,19 +27,19 @@ public class CustomerClass {
         CustomerClass.email = email;
     }
 
-    public static String getUserName() {
+    public String getUserName() {
         return userName;
     }
 
-    public static void setUserName(String userName) {
+    public void setUserName(String userName) {
         CustomerClass.userName = userName;
     }
 
-    public static String getName() {
+    public String getName() {
         return name;
     }
 
-    public static void setName(String fullName) {
+    public void setName(String fullName) {
         CustomerClass.name = fullName;
     }
 }
