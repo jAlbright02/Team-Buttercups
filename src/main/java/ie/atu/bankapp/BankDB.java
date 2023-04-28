@@ -50,9 +50,12 @@ public class BankDB {
             prepSt.setString(1, userName);
             rs = prepSt.executeQuery();
             //need this to move cursor forward otherwise it is pointing at nothing and it will display nothing
-            rs.next();
-            System.out.println("Balance = " + rs.getFloat("balance"));
-
+            if(rs.next()) {
+                System.out.println("Balance = " + rs.getFloat("balance"));
+            }
+            else {
+                System.out.println("No funds.");
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
