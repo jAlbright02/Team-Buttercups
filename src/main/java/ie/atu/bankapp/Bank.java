@@ -3,8 +3,7 @@ import java.util.Scanner;
 public class Bank extends BankDB{
     private static String password;
     private static float amount;
-    private static String transferAccNum;
-    private boolean config;
+    private static String userReceiver;
 
 
     //made Scanner object static, so it can be referenced in static methods
@@ -23,25 +22,29 @@ public class Bank extends BankDB{
 
 
     public void deposit () { //depositing money to bank account
-        long amount;
         System.out.println("Amount to be deposited");
         amount = sc.nextLong();
-        Deposit();
+        Deposit(customer.getUserName(), amount);
+        showBalance(customer.getUserName());
     }
 
     public void withdrawal() { //withdrawal
-        float amount;
         System.out.println("Enter amount to be withdrawn");
         amount = sc.nextLong();
-        Withdraw(accNumber, amount);
-        showBalance(accNumber);
+        Withdraw(customer.getUserName(), amount);
+        showBalance(customer.getUserName());
     }
 
     public void transfer(){  //creating a transfer function
         System.out.println("Please enter amount you desire to transfer");
         amount = sc.nextLong();
         System.out.println("Please enter account number you wish to transfer funds to");
-        String transferAccNum = sc.nextLine();
+        userReceiver = sc.nextLine();
+        Transfer(customer.getUserName(), userReceiver, amount);
+    }
+
+    public void checkBalance() {
+        showBalance(customer.getUserName());
     }
 
     public void createAccount () {  //setup for new account

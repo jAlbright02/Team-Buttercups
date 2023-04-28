@@ -26,6 +26,7 @@ public class BankApp extends Bank{
                 System.out.println("2. Create an Account");
                 System.out.println("3. Exit");
                 choice = sc.nextInt();
+                sc.nextLine();
 
                 switch (choice) //user has choice to og in or create account
                 {
@@ -59,7 +60,7 @@ public class BankApp extends Bank{
 
                 switch (logChoice) {
                     case 1:
-                        myBank.checkBal();
+                        myBank.checkBalance();
                         break;
                     case 2:
                         myBank.withdrawal();

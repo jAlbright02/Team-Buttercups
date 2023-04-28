@@ -43,13 +43,15 @@ public class TestDB {
                 }
 
                 //delete created account to keep db clean
-                myBank.Delete(custID);
+                myBank.Delete(userName);
 
                 //fix auto_increment value after testing
-                String alterCust = "ALTER TABLE customers AUTO_INCREMENT = " + custID + ";";
-                statement.executeUpdate(alterCust);
-                String alterAcc = "ALTER TABLE accounts AUTO_INCREMENT = " + custID + ";";
-                statement.executeUpdate(alterAcc);
+                String alterCust = "ALTER TABLE customers AUTO_INCREMENT = ?;";
+                PreparedStatement prepSt = connection.prepareStatement(alterCust);
+                prepSt.setInt(1, custID);
+                String alterAcc = "ALTER TABLE accounts AUTO_INCREMENT = ?;";
+                PreparedStatement prepSt2 = connection.prepareStatement(alterAcc);
+                prepSt2.setInt(1, custID);
 
                 connection.close();
             }
