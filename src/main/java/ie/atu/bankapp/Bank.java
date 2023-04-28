@@ -22,25 +22,27 @@ public class Bank extends BankDB{
 
 
     public void deposit () { //depositing money to bank account
-        System.out.println("Amount to be deposited");
-        amount = sc.nextLong();
+        System.out.println("Amount to be deposited: ");
+        amount = sc.nextFloat();
         Deposit(customer.getUserName(), amount);
         showBalance(customer.getUserName());
     }
 
     public void withdrawal() { //withdrawal
-        System.out.println("Enter amount to be withdrawn");
-        amount = sc.nextLong();
+        System.out.println("Enter amount to be withdrawn: ");
+        amount = sc.nextFloat();
         Withdraw(customer.getUserName(), amount);
         showBalance(customer.getUserName());
     }
 
     public void transfer(){  //creating a transfer function
-        System.out.println("Please enter amount you desire to transfer");
-        amount = sc.nextLong();
-        System.out.println("Please enter account number you wish to transfer funds to");
+        System.out.println("Please enter amount you desire to transfer: ");
+        amount = sc.nextInt();
+        sc.nextLine();
+        System.out.println("Please enter the user name you wish to transfer funds to: ");
         userReceiver = sc.nextLine();
         Transfer(customer.getUserName(), userReceiver, amount);
+        showBalance(customer.getUserName());
     }
 
     public void checkBalance() {

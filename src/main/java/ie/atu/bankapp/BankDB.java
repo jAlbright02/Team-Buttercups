@@ -165,8 +165,8 @@ public class BankDB {
     public static void Transfer(String userName, String userReciever, float amount) {
 
         //updates the balances of accounts
-        String depositCommand = "UPDATE accounts SET balance = balance + ? WHERE userName = ?;";
-        String withdrawCommand = "UPDATE accounts SET balance = balance - ? WHERE userName = ?;";
+        String depositCommand = "UPDATE accounts SET balance = balance + ? WHERE customer_id =(SELECT id FROM customers WHERE userName = ?);";
+        String withdrawCommand = "UPDATE accounts SET balance = balance - ? WHERE customer_id =(SELECT id FROM customers WHERE userName = ?);";
 
         //database connection
         try (Connection connection = BankDB_Connection.getConnection();
