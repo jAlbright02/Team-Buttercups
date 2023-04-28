@@ -204,10 +204,8 @@ public class BankDB {
         }
     }
 
-    public static void LoginTest(String userName, String password) {
+    public static boolean Login(String userName, String password) {
 
-        String[] userNameCommand = {"JamesA", "KevinH", "KerryF", "JohnB"};
-        String[] passwordCommand = {"secret", "hush1", "neverguess", "goodluck"};
         boolean found = false;
 
         try (Connection connection = BankDB_Connection.getConnection();
@@ -216,17 +214,11 @@ public class BankDB {
             ResultSet rs = statement.executeQuery("SELECT * FROM customers");
 
             while (rs.next()) {
-                String username = rs.getString("username");
-                String passwordFromDB = rs.getString("password");
+                String usernameFromDB = rs.getString("userName");
+                String passwordFromDB = rs.getString("pass");
 
-                for (int i = 0; i < userNameCommand.length; i++) {
-                    if (username.equals(userNameCommand[i]) && passwordFromDB.equals(passwordCommand[i])) {
-                        found = true;
-                        break;
-                    }
-                }
-
-                if (found) {
+                if((userName.equals(usernameFromDB)) && (password.equals(passwordFromDB))) {
+                    found = true;
                     break;
                 }
             }
@@ -234,14 +226,17 @@ public class BankDB {
             rs.close();
 
             if (found) {
-                System.out.println("Login successful");
+                System.out.println("Login successful!\n");
             } else {
-                System.out.println("Incorrect username or password.");
+                System.out.println("Incorrect username or password.\n");
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        return found;
+
     }
 }
 
