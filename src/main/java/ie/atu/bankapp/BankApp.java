@@ -45,6 +45,9 @@ public class BankApp extends Bank{
                         a = 1;
                         b = 1;
                         break;
+                    default:
+                        System.out.println("Oops! Please select from the above choices.");
+                        break;
                 }
             }
             int logChoice;
@@ -54,7 +57,9 @@ public class BankApp extends Bank{
                 System.out.println("1. Check Balance");
                 System.out.println("2. Withdraw");
                 System.out.println("3. Deposit");
-                System.out.println("4. Log Out");
+                System.out.println("4. Transfer Funds");
+                System.out.println("5. Delete Account");
+                System.out.println("6. Log Out");
 
                 logChoice = sc.nextInt();
 
@@ -69,9 +74,16 @@ public class BankApp extends Bank{
                         myBank.deposit();
                         break;
                     case 4:
+                        myBank.transfer();
+                        break;
+                    case 5:
+                        break;
+                    case 6:
                         System.out.println("Thank you for using the Banking App.\n");
                         choice = 3;
                         a = -1;
+                    default:
+                        System.out.println("Oops! Please select from the above choices.");
                         break;
                 }
             }
