@@ -37,9 +37,9 @@ public class BankDB {
     }
 
     //show balance
-    public static void showBalance(int custNum) {
+    public static void showBalance(String userName) {
 
-        String balanceCommand = "SELECT balance FROM accounts WHERE customer_id = ?;";
+        String balanceCommand = "SELECT balance FROM accounts WHERE customer_id = (SELECT id FROM customers WHERE userName = ?);";
 
         //create resultset object, used to retieve information from the database and points to one entry
         ResultSet rs;
@@ -47,7 +47,7 @@ public class BankDB {
         try (Connection connection = BankDB_Connection.getConnection();
              Statement statement = connection.createStatement()) {
             PreparedStatement prepSt = connection.prepareStatement(balanceCommand);
-            prepSt.setInt(1, custNum);
+            prepSt.setString(1, userName);
             rs = prepSt.executeQuery();
             //need this to move cursor forward otherwise it is pointing at nothing and it will display nothing
             rs.next();
@@ -60,10 +60,10 @@ public class BankDB {
     }
 
     //withdraw
-    public static void Withdraw(int custNum, float balance) {
+    public static void Withdraw(String userName, float amount) {
 
-        String withdrawCommand = "UPDATE accounts SET balance = balance - ? WHERE customer_id = ?;";
-        String checkAmount = "SELECT balance FROM accounts WHERE customer_id = ?;";
+        String withdrawCommand = "UPDATE accounts SET balance = balance - ? WHERE customer_id = (SELECT id FROM customers WHERE userName = ?);";
+        String checkAmount = "SELECT balance FROM accounts WHERE customer_id = (SELECT id FROM customers WHERE userName = ?);";
 
         //create resultset object, used to retieve information from the database and points to one entry
         ResultSet rs;
@@ -72,23 +72,23 @@ public class BankDB {
              Statement statement = connection.createStatement()) {
             PreparedStatement prepSt = connection.prepareStatement(checkAmount);
             connection.setAutoCommit(false);
-            prepSt.setInt(1, custNum);
+            prepSt.setString(1, userName);
             rs = prepSt.executeQuery();
 
             //check if there is any value in result set
             if (rs.next()) {
 
                 //grab value from balance depending on customer id
-                float amount = rs.getFloat("balance");
+                float balance = rs.getFloat("balance");
 
                 //check if the amount withdrawn is larger than balance
-                if (amount > balance) {
+                if (balance > amount) {
 
-                    //if greater than balance, attempt to withdraw amount entered
+                    //if less than balance, attempt to withdraw amount entered
                     try {
                         PreparedStatement prepSt2 = connection.prepareStatement(withdrawCommand);
-                        prepSt2.setFloat(1, balance);
-                        prepSt2.setInt(2, custNum);
+                        prepSt2.setFloat(1, amount);
+                        prepSt2.setString(2, userName);
 
                         prepSt2.executeUpdate();
 
@@ -111,28 +111,20 @@ public class BankDB {
             e.printStackTrace();
         }
 
-
-        /*
-
-         */
-
     }
 
     //deposit
-    public static void Deposit(int custNum, float balance) {
+    public static void Deposit(String userName, float amount) {
         //updates balance
-        String depositCommand = "UPDATE accounts SET balance = balance + ? WHERE customer_id = ?;";
+        String depositCommand = "UPDATE accounts SET balance = balance + ? WHERE customer_id = (SELECT id FROM customers WHERE userName = ?);";
 
         //connects to the database
-
-
-
         try (Connection connection = BankDB_Connection.getConnection();
              Statement statement = connection.createStatement()) {
             PreparedStatement prepSt = connection.prepareStatement(depositCommand);
             connection.setAutoCommit(false);
-            prepSt.setFloat(1, balance);
-            prepSt.setInt(2, custNum);
+            prepSt.setFloat(1, amount);
+            prepSt.setString(2, userName);
 
             //update balance
             prepSt.executeUpdate();
@@ -146,33 +138,35 @@ public class BankDB {
     }
 
     //delete account
-    public static void Delete(int custNum) {
+    public static void Delete(String userName) {
 
         //sql commands to be processed, didn't use prepared statements here, will change later
-        String deleteCommand = "DELETE FROM accounts WHERE id =" + custNum;
-        String deleteCommand2 = "DELETE FROM customers WHERE id =" + custNum;
+        String deleteCommand = "DELETE FROM accounts WHERE customer_id =(SELECT id FROM customers WHERE userName = ?);";
+        String deleteCommand2 = "DELETE FROM customers WHERE customer_id =(SELECT id FROM customers WHERE userName = ? );";
 
         try (Connection connection = BankDB_Connection.getConnection();
              Statement statement = connection.createStatement()) {
-            statement.executeUpdate(deleteCommand);
+            PreparedStatement prepSt = connection.prepareStatement(deleteCommand);
+            prepSt.setString(1, userName);
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         try (Connection connection = BankDB_Connection.getConnection();
              Statement statement = connection.createStatement()) {
-            statement.executeUpdate(deleteCommand2);
+            PreparedStatement prepSt = connection.prepareStatement(deleteCommand2);
+            prepSt.setString(1, userName);
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     //transaction between accounts
-    public static void Transfer(int sourceCustNum, int recieverCustNum, float balance) {
+    public static void Transfer(String userName, String userReciever, float amount) {
 
         //updates the balances of accounts
-        String depositCommand = "UPDATE accounts SET balance = balance + ? WHERE customer_id = ?;";
-        String withdrawCommand = "UPDATE accounts SET balance = balance - ? WHERE customer_id = ?;";
+        String depositCommand = "UPDATE accounts SET balance = balance + ? WHERE userName = ?;";
+        String withdrawCommand = "UPDATE accounts SET balance = balance - ? WHERE userName = ?;";
 
         //database connection
         try (Connection connection = BankDB_Connection.getConnection();
@@ -182,16 +176,16 @@ public class BankDB {
             // Deposit to the reciever account
             PreparedStatement recieverSt = connection.prepareStatement(depositCommand);
             connection.setAutoCommit(false);
-            recieverSt.setFloat(1, balance);
-            recieverSt.setInt(2, recieverCustNum);
+            recieverSt.setFloat(1, amount);
+            recieverSt.setString(2, userReciever);
 
             //updates amount in database
             recieverSt.executeUpdate();
 
             // Withdraw from source account
             PreparedStatement withdrawSt = connection.prepareStatement(withdrawCommand);
-            withdrawSt.setFloat(1, balance);
-            withdrawSt.setInt(2, sourceCustNum);
+            withdrawSt.setFloat(1, amount);
+            withdrawSt.setString(2, userName);
 
             //updates amount in database
             withdrawSt.executeUpdate();
