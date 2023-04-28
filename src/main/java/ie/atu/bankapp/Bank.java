@@ -69,4 +69,9 @@ public class Bank extends BankDB{
         System.out.println("Account created!");
     }
 
+    public void deleteAccount() {
+        Delete(customer.getUserName());
+        System.out.println("Your account has been deleted, goodbye.");
+    }
+
 }

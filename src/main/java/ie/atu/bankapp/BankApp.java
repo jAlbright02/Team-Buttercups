@@ -62,6 +62,7 @@ public class BankApp extends Bank{
                 System.out.println("6. Log Out");
 
                 logChoice = sc.nextInt();
+                sc.nextLine();
 
                 switch (logChoice) {
                     case 1:
@@ -77,11 +78,24 @@ public class BankApp extends Bank{
                         myBank.transfer();
                         break;
                     case 5:
+                        System.out.println("Are you sure you want to delete your account?");
+                        System.out.println("Enter y/n: ");
+                        String deleteAcc = sc.nextLine();
+                        if (deleteAcc.equals("y")) {
+                            System.out.println("Sad to see you go!");
+                            myBank.deleteAccount();
+                            choice = 3;
+                            a = -1;
+                        }
+                        else{
+                            System.out.println("That was a close one!");
+                        }
                         break;
                     case 6:
                         System.out.println("Thank you for using the Banking App.\n");
                         choice = 3;
                         a = -1;
+                        break;
                     default:
                         System.out.println("Oops! Please select from the above choices.");
                         break;
