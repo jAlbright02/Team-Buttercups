@@ -56,15 +56,23 @@ public class Bank extends BankDB{
         System.out.println("Enter last name: ");
         String lastName = sc.nextLine();
         System.out.println("Enter username: ");
-        String userName = sc.nextLine();
+        customer.setUserName(sc.nextLine());
         System.out.println("Create password: ");
         String pass = sc.nextLine();
         System.out.println("Enter email: ");
         customer.setEmail(sc.nextLine());
+        System.out.println("Enter phone: ");
+        customer.setPhone(sc.nextLine());
+        System.out.println("Enter street: ");
+        customer.setStreet(sc.nextLine());
+        System.out.println("Enter city: ");
+        customer.setCity(sc.nextLine());
+        System.out.println("Enter county: ");
+        customer.setCounty(sc.nextLine());
 
         String fullName = firstName + " " + lastName;
 
-        Create(fullName, userName, pass, customer.getEmail());
+        Create(fullName, customer.getUserName(), pass, customer.getEmail(), customer.getPhone(), customer.getStreet(), customer.getCity(), customer.getCounty());
 
         System.out.println("Account created!");
     }
