@@ -4,11 +4,12 @@ import java.sql.*;
 public class BankDB {
 
     //creates user account
-    public static void Create(String fullName, String userName, String pass, String email) {
+    public static void Create(String fullName, String userName, String pass, String email, String phone, String street, String city, String county) {
 
         //sql code to add received details into connected database
         String createCommand = "INSERT INTO customers (name, userName, pass, email) VALUES(?, ?, ?, ?);";
         String createCommand2 = "INSERT INTO accounts (customer_id, balance) VALUES ((SELECT id FROM customers ORDER BY id DESC LIMIT 1), 0);";
+        String createCommand3 = "INSERT INTO customer_info (customer_id, phone, street, city, county) VALUES ((SELECT id FROM customers ORDER BY id DESC LIMIT 1), ?, ?, ?, ?);";
 
         //attempt to connect to database and execute the sql query, if unsuccessful catch and print error
         try (Connection connection = BankDB_Connection.getConnection();
@@ -30,6 +31,21 @@ public class BankDB {
         try (Connection connection = BankDB_Connection.getConnection();
              Statement statement = connection.createStatement()) {
             statement.execute(createCommand2);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try (Connection connection = BankDB_Connection.getConnection();
+             Statement statement = connection.createStatement()) {
+            //prepared statement used to sub in values from user, quicker compilation after first use as the database doesn't have to recompile and is good security
+            PreparedStatement prepSt = connection.prepareStatement(createCommand3);
+            prepSt.setString(1, phone);
+            prepSt.setString(2, street);
+            prepSt.setString(3, city);
+            prepSt.setString(4, county);
+
+            prepSt.execute();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -144,13 +160,15 @@ public class BankDB {
     public static void Delete(String userName) {
 
         //sql commands to be processed, didn't use prepared statements here, will change later
-        String deleteCommand = "DELETE FROM accounts WHERE customer_id =(SELECT id FROM customers WHERE userName = ?);";
-        String deleteCommand2 = "DELETE FROM customers WHERE customer_id =(SELECT id FROM customers WHERE userName = ? );";
+        String deleteCommand = "DELETE FROM customer_info WHERE customer_id =(SELECT id FROM customers WHERE userName = ? );";
+        String deleteCommand2 = "DELETE FROM accounts WHERE customer_id =(SELECT id FROM customers WHERE userName = ?);";
+        String deleteCommand3 = "DELETE FROM customers WHERE userName = ?;";
 
         try (Connection connection = BankDB_Connection.getConnection();
              Statement statement = connection.createStatement()) {
             PreparedStatement prepSt = connection.prepareStatement(deleteCommand);
             prepSt.setString(1, userName);
+            prepSt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -159,6 +177,16 @@ public class BankDB {
              Statement statement = connection.createStatement()) {
             PreparedStatement prepSt = connection.prepareStatement(deleteCommand2);
             prepSt.setString(1, userName);
+            prepSt.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        try (Connection connection = BankDB_Connection.getConnection();
+             Statement statement = connection.createStatement()) {
+            PreparedStatement prepSt = connection.prepareStatement(deleteCommand3);
+            prepSt.setString(1, userName);
+            prepSt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }

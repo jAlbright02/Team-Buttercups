@@ -23,9 +23,13 @@ public class TestDB {
                 String userName = "TesterMcT";
                 String pass = "testing123";
                 String email = "test@atu.ie";
+                String phone = "0871234567";
+                String street = "ATU";
+                String city = "Galway";
+                String county = "Galway";
 
                 //create the customer
-                myBank.Create(name, userName, pass, email);
+                myBank.Create(name, userName, pass, email, phone, street, city, county);
 
                 //check the db holds the expected values
                 int custID;
