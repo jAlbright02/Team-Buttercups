@@ -23,7 +23,7 @@ Java, Databases, SQL and more.
 
 2. Run this code inside the MySQL command line or workbench program
 
-3. Go to the [main page](https://github.com/jAlbright02/Team-Buttercups) and click Code
+3. Scroll up and click Code
 
 4. Copy the HTTPS link from there ([or here](https://github.com/jAlbright02/Team-Buttercups.git))
 
